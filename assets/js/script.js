@@ -60,35 +60,27 @@
         let forecast = response.list
         // Next 5 days
         for (let i = 0; i < 40; i+=8){
-            displayWeather(forecast[i])
-            // let icon = JSON.stringify(forecast[i].weather[0].icon)
-            // let iconURL = `http://openweathermap.org/img/wn/${icon}@2x.png`
-            // let temp = JSON.stringify(forecast[i].main.temp)
-            // let wind = JSON.stringify(forecast[i].wind.speed)
-            // let humidity = JSON.stringify(forecast[i].main.humidity)
-            // let description = JSON.stringify(forecast[i].weather[0].description)
-
-
-
-            // console.log(`${forecast[i].dt_txt} : temp = ${temp} degrees, wind = ${wind}, humidity = ${humidity}. Description = ${description} icon = ${iconURL} `);                        
+            displayWeather(forecast[i])                      
             }
     }
 
 //  takes an object i.e forcast[i]
 // and returns on HTML
 function displayWeather(el){
-    let icon = JSON.stringify(el.weather[0].icon)
+    
+    // Assign variables
+    let icon = (el.weather[0].icon)
     let iconURL = `http://openweathermap.org/img/wn/${icon}@2x.png`
     let temp = JSON.stringify(el.main.temp)
     let wind = JSON.stringify(el.wind.speed)
     let humidity = JSON.stringify(el.main.humidity)
     let description = JSON.stringify(el.weather[0].description)
-
-
-
-    // console.log(`${el.dt_txt} : temp = ${temp} degrees, wind = ${wind}, humidity = ${humidity}. Description = ${description} icon = ${iconURL} `); 
-    const forecastCard = $("<div class='forecastCard'></div>")
-    // Add temp
+    let date = JSON.stringify(el.dt_txt).split(" ")[0]
+    const forecastCard = $("<div class='card col-2 forecastCard'></div>")
+    
+    // Render to HTML
+    const iconDisplay = $(`<img src="${iconURL}" alt="picOfWeather"> `)
+    const dateDisplay = $(`<p class="dateDisplay">Date and Time: ${date}</p> `)
     const tempDisplay = $(`<p class="tempDisplay">Temperature is: ${temp}</p>`)
     const windDisplay = $(`<p class="windDisplay">Wind is: ${wind}</p>`)
     const humidityDisplay = $(`<p class="humidityDisplay">Humidity is: ${humidity}</p>`)
@@ -97,7 +89,7 @@ function displayWeather(el){
     // forecastCard.addClass("forecastCard")
     // forecastCard.text(`${el.dt_txt} : temp = ${temp} degrees, wind = ${wind}, humidity = ${humidity}. Description = ${description} icon = ${iconURL} `)
     $("#forecast").append(forecastCard)
-    forecastCard.append([tempDisplay, windDisplay, humidityDisplay, descriptionDisplay])
+    forecastCard.append([dateDisplay, iconDisplay, tempDisplay, windDisplay, humidityDisplay, descriptionDisplay])
 }
 
     
