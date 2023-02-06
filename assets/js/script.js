@@ -1,4 +1,5 @@
-
+let myMoment = moment()
+let today = myMoment.format("YYYY-MM-DD")
 // This runs on submit of a form?
 // $("#search-form").on("submit", function (event){
 //     event.preventDefault()
@@ -57,9 +58,22 @@
     })
 
     function getWeather (response) {
+        
         let forecast = response.list
+        console.log(forecast);
+        // let middayArray = forecast.filter(function (el){
+        //     if(el.dt_txt)
+        // })
+        let arrayOfDT = forecast.map(function (el){
+            return el.dt_txt.slice(11)
+        })
+       
+        console.log(arrayOfDT);
+        let indexofMidday = arrayOfDT.indexOf(`12:00:00`)
+        console.log(indexofMidday)
+        // let indexofMidday = 
         // Next 5 days
-        for (let i = 0; i < 40; i+=8){
+        for (let i = indexofMidday; i < 40; i+=8){
             displayWeather(forecast[i])                      
             }
     }
@@ -67,7 +81,7 @@
 //  takes an object i.e forcast[i]
 // and returns on HTML
 function displayWeather(el){
-    
+    console.log(el)
     // Assign variables
     let icon = (el.weather[0].icon)
     let iconURL = `http://openweathermap.org/img/wn/${icon}@2x.png`
@@ -91,5 +105,8 @@ function displayWeather(el){
     $("#forecast").append(forecastCard)
     forecastCard.append([dateDisplay, iconDisplay, tempDisplay, windDisplay, humidityDisplay, descriptionDisplay])
 }
+
+
+console.log(today);
 
     
