@@ -1,7 +1,4 @@
 
-
-
-
 // This runs on submit of a form?
 $("#search-form").on("submit", function (event){
     event.preventDefault()
@@ -12,18 +9,21 @@ $("#search-form").on("submit", function (event){
 $.ajax({
     url: geoCodeURL,
     method: "GET"
-}).then(function(response) {
-    const weatherApiRootUrl = 'https://api.openweathermap.org';
-    let lat = JSON.stringify(response[0].lat);
-    let lon = JSON.stringify(response[0].lon);
-    const apiUrl = weatherApiRootUrl + '/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&units=metric&appid=' + apiKey;
+    }).then(function(response) {
+        const weatherApiRootUrl = 'https://api.openweathermap.org';
+        let lat = JSON.stringify(response[0].lat);
+        let lon = JSON.stringify(response[0].lon);
+        const apiUrl = weatherApiRootUrl + '/data/2.5/forecast?lat=' + lat + '&lon=' + lon + '&units=metric&appid=' + apiKey;
 
-    $.ajax({
-        url: apiUrl,
-        method: "GET"
-    }).then(function(newResponse) {
-        console.log(newResponse)
-    })
+        $.ajax({
+            url: apiUrl,
+            method: "GET"
+        }).then(function(finalResponse) {
+            let icon = finalResponse.list[0].weather[0].icon
+            
+            let iconURL = `http://openweathermap.org/img/wn/${icon}@2x.png`
+            console.log(iconURL)
+        })
 
     })
 })
