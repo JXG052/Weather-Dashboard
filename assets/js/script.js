@@ -100,7 +100,7 @@ function displayCurrentWeather(el, cityName){
         
         // Assign variables
         let icon = (el.weather[0].icon)
-        let iconURL = `http://openweathermap.org/img/wn/${icon}@2x.png`
+        let iconURL = `https://openweathermap.org/img/wn/${icon}@2x.png`
         let temp = JSON.stringify(el.main.temp)
         let wind = JSON.stringify(el.wind.speed)
         let humidity = JSON.stringify(el.main.humidity)
@@ -124,7 +124,7 @@ function display5DayWeather(el){
     
     // Assign variables
     let icon = (el.weather[0].icon)
-    let iconURL = `http://openweathermap.org/img/wn/${icon}@2x.png`
+    let iconURL = `https://openweathermap.org/img/wn/${icon}@2x.png`
     let temp = JSON.stringify(el.main.temp)
     let wind = JSON.stringify(el.wind.speed)
     let humidity = JSON.stringify(el.main.humidity)
