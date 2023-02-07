@@ -1,8 +1,7 @@
 .forecastCard {
     border: 1pt solid black;
-    border-radius: 15px;
     padding: 5px;
-    background-color: navy;
+    background-color: #154c79;
     color: white;
     font-size: 12px;
     font-weight: bold;
@@ -12,6 +11,16 @@
 
 .todayCard {
     border: 1pt solid black;
-    border-radius: 15px;
+    
     padding: 5px;
+}
+
+.forecastCard img {
+    max-height: 50px;
+    max-width: 50px;
+}
+
+.historyBtns {
+    padding: 5px;
+    margin: 5px;
 }
