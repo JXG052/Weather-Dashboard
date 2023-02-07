@@ -19,3 +19,18 @@ n/a
 
 Open the page and enter a City. You will be presented with the current and future forecast. A button will be added to the side of the page, linking to your previous searches
 
+
+
+[Link to page](https://jxg052.github.io/Weather-Dashboard/)
+
+
+
+## Credits
+
+Thanks to edx bootcamp team for providing starter code and mockup.
+
+## License
+
+MIT License
+
+Copyright (c) 2023 JXG052
