@@ -3,7 +3,8 @@ let today = myMoment.format("YYYY-MM-DD")
 // This runs on submit of a form?
 $("#search-form").on("submit", function (event){
     event.preventDefault()
-    const cityName = $("#search-input").val()
+    clear()
+    const cityName = $("#search-input").val().trim()
     const apiKey = "ab9f8caa2dd9cd7134acc296912c94ae"
     const geoCodeURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
 
@@ -31,12 +32,16 @@ $("#search-form").on("submit", function (event){
 
 })
 
-
+// Function to empty out the articles
+function clear() {
+    $("#today").empty();
+    $("#forecast").empty();
+  }
 
 
 // formats the response from Ajax call and calls the display function for both 5 day and today
 function getWeather (response) {
-    
+    let cityName = response.city.name
     let forecast = response.list
     console.log(forecast);
     // let middayArray = forecast.filter(function (el){
@@ -54,10 +59,11 @@ function getWeather (response) {
     for (let i = indexofMidday; i < 40; i+=8){
         display5DayWeather(forecast[i])                      
         }
-    displayCurrentWeather(forecast[0])
+    displayCurrentWeather(forecast[0], cityName)
 }
 
-function displayCurrentWeather(el){
+function displayCurrentWeather(el, cityName){
+        console.log(el)
         // Assign variables
         let icon = (el.weather[0].icon)
         let iconURL = `http://openweathermap.org/img/wn/${icon}@2x.png`
@@ -65,18 +71,18 @@ function displayCurrentWeather(el){
         let wind = JSON.stringify(el.wind.speed)
         let humidity = JSON.stringify(el.main.humidity)
         let description = JSON.stringify(el.weather[0].description)
-        let date = JSON.stringify(el.dt_txt)
-        const todayCard = $("<div class='card col-2 todayCard'>Current Weather</div>")
-            // Render to HTML
-        const iconDisplay = $(`<img src="${iconURL}" alt="todaysWeather"> `)
-        const dateDisplay = $(`<p class="dateDisplay">Date and Time: ${date}</p> `)
-        const tempDisplay = $(`<p class="tempDisplay">Temperature is: ${temp}</p>`)
-        const windDisplay = $(`<p class="windDisplay">Wind is: ${wind}</p>`)
-        const humidityDisplay = $(`<p class="humidityDisplay">Humidity is: ${humidity}</p>`)
-        const descriptionDisplay = $(`<p class="description">${description}</p>`)
+        let date = myMoment.format('DD/MM/YYYY')
+        const todayCard = $("<div class='todayCard'></div>")
+        // Render to HTML
+        // const iconDisplay = $(` `)
+        const dateDisplay = $(`<h2 class="dateDisplay">${cityName} (${date}) <img src="${iconURL}" alt="todaysWeather"></h2> `)
+        const tempDisplay = $(`<p class="tempDisplay">Temp: ${temp}°C </p>`)
+        const windDisplay = $(`<p class="windDisplay">Wind: ${wind} KPH</p>`)
+        const humidityDisplay = $(`<p class="humidityDisplay">Humidity: ${humidity}%</p>`)
+        // const descriptionDisplay = $(`<p class="description">${description}</p>`)
 
-    $("#today").append(todayCard)
-    todayCard.append([dateDisplay, iconDisplay, tempDisplay, windDisplay, humidityDisplay, descriptionDisplay])
+        $("#today").append(todayCard)
+        todayCard.append([dateDisplay, tempDisplay, windDisplay, humidityDisplay, ])
 }
 
 // Renders weather to HTML for the 5 day forecast
@@ -89,19 +95,16 @@ function display5DayWeather(el){
     let wind = JSON.stringify(el.wind.speed)
     let humidity = JSON.stringify(el.main.humidity)
     let description = JSON.stringify(el.weather[0].description)
-    let date = JSON.stringify(el.dt_txt)
+    let date = el.dt_txt.slice(0,10)
     const forecastCard = $("<div class='card col-2 forecastCard'></div>")
     
     // Render to HTML
     const iconDisplay = $(`<img src="${iconURL}" alt="picOfWeather"> `)
-    const dateDisplay = $(`<p class="dateDisplay">Date and Time: ${date}</p> `)
+    const dateDisplay = $(`<h5 class="dateDisplay">${date}</h5> `)
     const tempDisplay = $(`<p class="tempDisplay">Temperature is: ${temp}</p>`)
     const windDisplay = $(`<p class="windDisplay">Wind is: ${wind}</p>`)
     const humidityDisplay = $(`<p class="humidityDisplay">Humidity is: ${humidity}</p>`)
     const descriptionDisplay = $(`<p class="description">${description}</p>`)
-    
-    // forecastCard.addClass("forecastCard")
-    // forecastCard.text(`${el.dt_txt} : temp = ${temp} degrees, wind = ${wind}, humidity = ${humidity}. Description = ${description} icon = ${iconURL} `)
     $("#forecast").append(forecastCard)
     forecastCard.append([dateDisplay, iconDisplay, tempDisplay, windDisplay, humidityDisplay, descriptionDisplay])
 }

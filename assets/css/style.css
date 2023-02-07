@@ -2,5 +2,16 @@
     border: 1pt solid black;
     border-radius: 15px;
     padding: 5px;
-    
+    background-color: navy;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 5px;
+}
+
+.todayCard {
+    border: 1pt solid black;
+    border-radius: 15px;
+    padding: 5px;
 }
