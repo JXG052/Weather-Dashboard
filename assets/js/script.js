@@ -3,6 +3,8 @@ let today = myMoment.format("YYYY-MM-DD")
 let history = []
 let storedSearches = JSON.parse(localStorage.getItem("weatherHistory"))
 console.log(storedSearches);
+
+// Check to see if there have been previous searches
 if (storedSearches != null){
     history = storedSearches.map(function(search){
         return search
@@ -20,20 +22,20 @@ if (storedSearches != null){
                 getWeather(JSON.parse(element.data))
             }
         })
-        
-
     })
-    console.log("history");
-    console.log(history);
 }
 
+function formatCityName(string){
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
 
-// This runs on submit of a form?
+}
+// Runs a new search and displays the response in HTML
 $("#search-form").on("submit", function (event){
     
     event.preventDefault()
     clear()
-    const cityName = $("#search-input").val().trim()
+    const input = $("#search-input").val().trim()
+    let cityName = formatCityName(input)
     const apiKey = "ab9f8caa2dd9cd7134acc296912c94ae"
     const geoCodeURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
 
