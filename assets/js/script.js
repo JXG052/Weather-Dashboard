@@ -2,7 +2,7 @@ let myMoment = moment()
 let today = myMoment.format("YYYY-MM-DD")
 let history = []
 let storedSearches = JSON.parse(localStorage.getItem("weatherHistory"))
-console.log(storedSearches);
+
 
 // Check to see if there have been previous searches
 if (storedSearches != null){
@@ -16,7 +16,7 @@ if (storedSearches != null){
     $("#history").on("click", ".historyBtns", function(event){
         clear()
         let city = event.target.innerHTML.trim()
-        console.log(city)
+        
         history.forEach(function (element){
             if (city === element.cityName){
                 getWeather(JSON.parse(element.data))
@@ -27,7 +27,6 @@ if (storedSearches != null){
 
 function formatCityName(string){
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
-
 }
 // Runs a new search and displays the response in HTML
 $("#search-form").on("submit", function (event){
@@ -37,7 +36,7 @@ $("#search-form").on("submit", function (event){
     const input = $("#search-input").val().trim()
     let cityName = formatCityName(input)
     const apiKey = "ab9f8caa2dd9cd7134acc296912c94ae"
-    const geoCodeURL = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
+    const geoCodeURL = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
 
     $.ajax({
     url: geoCodeURL,
@@ -55,7 +54,7 @@ $("#search-form").on("submit", function (event){
             let data = JSON.stringify(finalResponse)
             let toStore = {cityName, data}
             history.push(toStore)
-            console.log(history);
+            
             getWeather(finalResponse)
             localStorage.setItem("weatherHistory", JSON.stringify(history))
             addButton(cityName)
@@ -78,28 +77,25 @@ function clear() {
 
 // formats the response from Ajax call and calls the display function for both 5 day and today
 function getWeather (response) {
-    console.log(response);
+    
     let cityName = response.city.name
     let forecast = response.list
-    
-    // let middayArray = forecast.filter(function (el){
-    //     if(el.dt_txt)
-    // })
+
+    // ensures the 5 day forecast is based on midday
     let arrayOfDT = forecast.map(function (el){
         return el.dt_txt.slice(11)
     })
     
-   
     let indexofMidday = arrayOfDT.indexOf(`12:00:00`)
     
-    // let indexofMidday = 
+     
     // Next 5 days
     for (let i = indexofMidday; i < 40; i+=8){
         display5DayWeather(forecast[i])                      
         }
     displayCurrentWeather(forecast[0], cityName)
 }
-
+// Renders Current Weather
 function displayCurrentWeather(el, cityName){
         
         // Assign variables
@@ -151,7 +147,7 @@ function display5DayWeather(el){
     $("#forecast").append(forecastCard)
     forecastCard.append([dateDisplay, iconDisplay, tempDisplay, windDisplay, humidityDisplay])
 }
-
+// Creates history buttons
 function addButton(cityName) {
     const newBtn = $(`<button data-name="${cityName}" class="historyBtns">${cityName}</button>`)
     $("#history").append(newBtn)
